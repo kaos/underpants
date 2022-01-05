@@ -1,0 +1,26 @@
+[GLOBAL]
+pants_version = "2.9.0rc2"
+backend_packages = [
+  "pants.backend.experimental.python.lint.autoflake",
+  "pants.backend.plugin_development",
+  "pants.backend.python",
+  "pants.backend.python.lint.black",
+  "pants.backend.python.lint.docformatter",
+  "pants.backend.python.lint.flake8",
+  "pants.backend.python.lint.isort",
+  "pants.backend.python.typecheck.mypy",
+]
+
+
+[anonymous-telemetry]
+enabled = true
+repo_id = "7F5655FF-274D-4E5F-8236-F85E9E28D489"
+
+
+[mypy]
+args = "--namespace-packages --explicit-package-bases"
+
+
+[python]
+interpreter_constraints = [">=3.8, <3.10"]
+# requirement_constraints = "3rdparty/constraints.txt"
