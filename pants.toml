@@ -1,6 +1,7 @@
 [GLOBAL]
 pants_version = "2.9.0rc5"
 backend_packages = [
+  "pants.backend.experimental.python",
   "pants.backend.experimental.python.lint.autoflake",
   "pants.backend.plugin_development",
   "pants.backend.python",
