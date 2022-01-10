@@ -8,7 +8,7 @@ Pants.
 This is a toy POC testing out the feasability of using the [Pants Build
 System](https://www.pantsbuild.org/) as a rule engine in your Python application.
 
-It's also a test-bed for exploring the intricacies of rule caching etc.
+It's also a test-bed for me to explore the intricacies of rule caching etc.
 
 
 Expected output along the lines of:
@@ -54,3 +54,10 @@ To add/change the requirements, re-create the lockfile from `3rdparty/requiremen
 ```
 pex3 lock create -r 3rdparty/requirements.txt -o 3rdparty/requirements.lock
 ```
+
+
+Version
+=======
+
+Use at your own peril:
+[![version](https://img.shields.io/pypi/v/underpants.svg)](https://pypi.org/project/underpants)
