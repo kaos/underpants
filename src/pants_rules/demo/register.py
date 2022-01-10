@@ -1,4 +1,4 @@
-from pr.demo import basic
+from pants_rules.demo import basic
 
 
 def rules():

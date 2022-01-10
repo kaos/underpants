@@ -1,5 +1,5 @@
 [GLOBAL]
-pants_version = "2.9.0rc2"
+pants_version = "2.9.0rc5"
 backend_packages = [
   "pants.backend.experimental.python.lint.autoflake",
   "pants.backend.plugin_development",
@@ -23,4 +23,4 @@ args = "--namespace-packages --explicit-package-bases"
 
 [python]
 interpreter_constraints = [">=3.8, <3.10"]
-# requirement_constraints = "3rdparty/constraints.txt"
+requirement_constraints = "3rdparty/constraints.txt"

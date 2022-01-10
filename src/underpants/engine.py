@@ -37,11 +37,7 @@ class RulesEngine:
         backends: Iterable[str] = (),
         args: Iterable[str] = (),
     ) -> RulesEngine:
-        build_config_builder = BuildConfiguration.Builder()
-        for backend in backends:
-            load_backend(build_config_builder, backend)
-
-        build_config = build_config_builder.create()
+        build_config = cls.create_build_config(backends)
         environment = CompleteEnvironment(os.environ)
         options_bootstrapper = create_options_bootstrapper(args=args)
         options = options_bootstrapper.full_options(build_config)
@@ -67,6 +63,18 @@ class RulesEngine:
             global_options=global_options,
             session=graph_session.scheduler_session,
         )
+
+    @staticmethod
+    def create_build_configuration_builder() -> BuildConfiguration.Builder:
+        return BuildConfiguration.Builder()
+
+    @classmethod
+    def create_build_config(cls, backends: Iterable[str]) -> BuildConfiguration:
+        build_config_builder = cls.create_build_configuration_builder()
+        for backend in backends:
+            load_backend(build_config_builder, backend)
+
+        return build_config_builder.create()
 
     def request(self, output_type: type[_O], *inputs: Any) -> _O:
         result = assert_single_element(self.session.product_request(output_type, [Params(*inputs)]))

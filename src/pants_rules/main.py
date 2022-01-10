@@ -2,8 +2,8 @@ from time import sleep
 
 import click
 
-from pants_rules.engine import RulesEngine
-from pr.demo.basic import Proc, ProcResult, SimpleResult
+from underpants.engine import RulesEngine
+from pants_rules.demo.basic import Proc, ProcResult, SimpleResult
 
 
 @click.command()
