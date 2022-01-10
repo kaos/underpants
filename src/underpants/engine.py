@@ -4,7 +4,7 @@ import os
 import sys
 from contextlib import contextmanager
 from dataclasses import dataclass, replace
-from typing import Any, Iterable, TypeVar, cast
+from typing import Any, Iterable, Iterator, TypeVar, cast
 
 from pants.build_graph.build_configuration import BuildConfiguration
 from pants.engine.environment import CompleteEnvironment
@@ -93,5 +93,5 @@ class RulesEngine:
             yield
 
     @contextmanager
-    def new_session(self, id: str) -> RulesEngine:
+    def new_session(self, id: str) -> Iterator[RulesEngine]:
         yield replace(self, session=self.session.scheduler.new_session(id))

@@ -1,1 +1,3 @@
 click
+#pantsbuild.pants
+#pantsbuild.pants.testutil

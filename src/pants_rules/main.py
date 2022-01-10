@@ -2,15 +2,15 @@ from time import sleep
 
 import click
 
-from underpants.engine import RulesEngine
 from pants_rules.demo.basic import Proc, ProcResult, SimpleResult
+from underpants.engine import RulesEngine
 
 
 @click.command()
 def main():
     engine = RulesEngine.create(
         "demo",
-        backends=("pr.demo",),
+        backends=("pants_rules.demo",),
         args=(
             # "--level=trace",
             "--no-local-cache",

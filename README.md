@@ -13,17 +13,17 @@ It's also a test-bed for exploring the intricacies of rule caching etc.
 
 Expected output along the lines of:
 ```
-$ ./pants run src/pr:main
-12:32:31.96 [INFO] Starting: pr.demo.basic.answer_to_life_universe_and_everything
-12:32:31.96 [INFO] Starting: pr.demo.basic.reverse_input
+$ ./pants run src/pants_rules:
+14:00:05.78 [INFO] Starting: pants_rules.demo.basic.answer_to_life_universe_and_everything
+14:00:05.78 [INFO] Starting: pants_rules.demo.basic.reverse_input
 == in reverse_input: InputData(text='answer')
-12:32:31.96 [INFO] Completed: pr.demo.basic.reverse_input
+14:00:05.78 [INFO] Completed: pants_rules.demo.basic.reverse_input
 == data: OutputData(text='rewsna')
-12:32:31.96 [INFO] Completed: pr.demo.basic.answer_to_life_universe_and_everything
+14:00:05.78 [INFO] Completed: pants_rules.demo.basic.answer_to_life_universe_and_everything
 The result is: SimpleResult(answer=41)
-12:32:32.47 [INFO] Starting: pr.demo.basic.answer_to_life_universe_and_everything
+14:00:06.29 [INFO] Starting: pants_rules.demo.basic.answer_to_life_universe_and_everything
 == data: OutputData(text='rewsna')
-12:32:32.47 [INFO] Completed: pr.demo.basic.answer_to_life_universe_and_everything
+14:00:06.29 [INFO] Completed: pants_rules.demo.basic.answer_to_life_universe_and_everything
 The result is: SimpleResult(answer=42)
 The result is: ProcResult(code=0, err=None)
 The result is: ProcResult(code=1, err="proc 'fail' failed")
