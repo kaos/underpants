@@ -17,7 +17,6 @@ from pants.init.logging import initialize_stdio, stdio_destination
 from pants.option.global_options import DynamicRemoteOptions
 from pants.option.option_value_container import OptionValueContainer
 from pants.option.options_bootstrapper import OptionsBootstrapper
-from pants.testutil.option_util import create_options_bootstrapper
 from pants.util.collections import assert_single_element
 
 _O = TypeVar("_O")
@@ -34,12 +33,35 @@ class RulesEngine:
         cls,
         id: str,
         *,
-        backends: Iterable[str] = (),
         args: Iterable[str] = (),
+        backends: Iterable[str] = (),
+        env_prefix: tuple[str, str] | None = ("UNDERPANTS_", "PANTS_"),
+        local_cache: bool | None = False,
+        local_store_dir: str | None = ".pants.d/{id}/lmdb_store",
+        named_caches_dir: str | None = ".pants.d/{id}/named_caches",
     ) -> RulesEngine:
+        """Create a new RulesEngine instance.
+
+        The `id` is an arbitrary string. Load rules from all `backends`
+        (á la Pants, the backend `a.b` will load rules from
+        `a.b.register:rules()`). Any command line args for the engine in
+        `args`, and load options from the environment when using the
+        `env_prefix` as `(<remove_prefix>, <add_prefix>)` (That is, only
+        env vars that have `<remove_prefix>` will be considered.)
+        """
+        bootstrap_args = [*args]
+        if local_cache is False:
+            bootstrap_args.append("--no-local-cache")
+        if local_store_dir:
+            bootstrap_args.append(f"--local-store-dir={local_store_dir.format(id=id)}")
+        if named_caches_dir:
+            bootstrap_args.append(f"--named-caches-dir={named_caches_dir.format(id=id)}")
+
         build_config = cls.create_build_config(backends)
         environment = CompleteEnvironment(os.environ)
-        options_bootstrapper = create_options_bootstrapper(args=args)
+        options_bootstrapper = cls.create_options_bootstrapper(
+            args=bootstrap_args, env_prefix=env_prefix
+        )
         options = options_bootstrapper.full_options(build_config)
         global_options = options_bootstrapper.bootstrap_options.for_global_scope()
         dynamic_remote_options, _ = DynamicRemoteOptions.from_options(options, environment)
@@ -75,6 +97,25 @@ class RulesEngine:
             load_backend(build_config_builder, backend)
 
         return build_config_builder.create()
+
+    @staticmethod
+    def create_options_bootstrapper(
+        args: Iterable[str], env_prefix: tuple[str, str] | None = None
+    ) -> OptionsBootstrapper:
+        if not env_prefix:
+            env = {}
+        else:
+            assert len(env_prefix) == 2
+            env = {
+                key.replace(*env_prefix, 1): value
+                for key, value in os.environ.items()
+                if key.startswith(env_prefix[0])
+            }
+        return OptionsBootstrapper.create(
+            args=("--pants-config-files=[]", *(args or [])),
+            env=env,
+            allow_pantsrc=False,
+        )
 
     def request(self, output_type: type[_O], *inputs: Any) -> _O:
         result = assert_single_element(self.session.product_request(output_type, [Params(*inputs)]))

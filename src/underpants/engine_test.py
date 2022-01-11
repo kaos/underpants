@@ -20,14 +20,7 @@ class TestRulesEngine(RulesEngine):
             # The pants.engine.RuleIndex class accepts callables with a `rule` attribute.
             test_rules = cast("tuple[Rule, ...]", tuple(rules))
 
-        return WithRules.create(
-            id,
-            args=(
-                "--no-local-cache",
-                f"--local-store-dir=.pants.d/{id}/lmdb_store",
-                f"--named-caches-dir=.pants.d/{id}/named_caches",
-            ),
-        )
+        return WithRules.create(id)
 
     @classmethod
     def create_build_configuration_builder(cls) -> BuildConfiguration.Builder:

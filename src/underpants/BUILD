@@ -13,7 +13,7 @@ python_distribution(
     repositories=["@pypi"],
     provides=python_artifact(
         name="underpants",
-        version="0.1.1",
+        version="0.1.2",
         description="Leverage the Rules Engine from the Pants Build System as a library.",
         license="MIT",
         project_urls={

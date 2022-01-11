@@ -10,13 +10,10 @@ from underpants.engine import RulesEngine
 def main():
     engine = RulesEngine.create(
         "demo",
-        backends=("pants_rules.demo",),
         args=(
             # "--level=trace",
-            "--no-local-cache",
-            "--local-store-dir=.pants.d/basic/lmdb_store",
-            "--named-caches-dir=.pants.d/basic/named_caches",
         ),
+        backends=("pants_rules.demo",),
     )
     with engine.pants_logging():
         for x in range(2):
