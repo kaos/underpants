@@ -13,7 +13,7 @@ python_distribution(
     repositories=["@pypi"],
     provides=python_artifact(
         name="underpants",
-        version="0.1.2",
+        version="0.2.0",
         description="Leverage the Rules Engine from the Pants Build System as a library.",
         license="MIT",
         project_urls={
@@ -25,6 +25,8 @@ python_distribution(
         long_description="""
 `underpants` - Or, using Pants as an embedded rule engine
 =========================================================
+
+For Pantsbuild version: 2.12.0
 
 DISCLAIMER: This is not in any way to show how to use Pants, or recommended patterns of
 use. Provided here AS-IS. No gurantees of any kind, as this may break with any future release of

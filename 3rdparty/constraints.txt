@@ -1,2 +1,0 @@
-click==8.0.3 # click via -> -r 3rdparty/requirements.txt (line 1) \
-    --hash:sha256=353f466495adaeb40b6b5f592f9f91cb22372351c84caeb068132442a4518ef3 # https://files.pythonhosted.org/packages/48/58/c8aa6a8e62cc75f39fee1092c45d6b6ba684122697d7ce7d53f64f98a129/click-8.0.3-py3-none-any.whl
