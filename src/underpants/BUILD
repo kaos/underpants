@@ -7,13 +7,15 @@ python_tests(
     dependencies=["//:build_root"],
 )
 
+resources(name="resources", sources=["py.typed"])
+
 python_distribution(
     name="dist",
-    dependencies=[":underpants"],
+    dependencies=[":underpants", ":resources"],
     repositories=["@pypi"],
     provides=python_artifact(
         name="underpants",
-        version="0.2.2",
+        version="0.2.3",
         description="Leverage the Rules Engine from the Pants Build System as a library.",
         license="MIT",
         project_urls={
