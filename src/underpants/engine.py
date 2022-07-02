@@ -4,13 +4,15 @@ import os
 import sys
 from contextlib import contextmanager
 from dataclasses import dataclass, replace
-from typing import Any, Iterable, Iterator, TypeVar, cast
+from typing import Any, Callable, Iterable, Iterator, TypeVar, Union, cast
 
 from pants.build_graph.build_configuration import BuildConfiguration
 from pants.engine.environment import CompleteEnvironment
 from pants.engine.internals.scheduler import SchedulerSession
 from pants.engine.internals.selectors import Params
 from pants.engine.internals.session import SessionValues
+from pants.engine.rules import Rule
+from pants.engine.unions import UnionRule
 from pants.init.engine_initializer import EngineInitializer
 from pants.init.extension_loader import load_backend
 from pants.init.logging import initialize_stdio, stdio_destination
@@ -136,3 +138,36 @@ class RulesEngine:
     @contextmanager
     def new_session(self, id: str) -> Iterator[RulesEngine]:
         yield replace(self, session=self.session.scheduler.new_session(id))
+
+
+class TestRulesEngine(RulesEngine):
+    """Unit test rules engine.
+
+    Use as:
+
+        engine = TestRulesEngine.create_with_rules(
+            rule_1,
+            rule_2,
+            QueryRule(ResultType, (InputParamType,)),
+        )
+
+        engine.request(ResultType, InputParamType())
+    """
+
+    test_rules: tuple[Rule, ...] = ()
+
+    @classmethod
+    def create_with_rules(
+        cls, *rules: Union[Rule, Callable, UnionRule], id: str = "test", args: Iterable[str] = ()
+    ) -> RulesEngine:
+        class WithRules(TestRulesEngine):
+            # The pants.engine.RuleIndex class accepts callables with a `rule` attribute.
+            test_rules = cast("tuple[Rule, ...]", tuple(rules))
+
+        return WithRules.create(id)
+
+    @classmethod
+    def create_build_configuration_builder(cls) -> BuildConfiguration.Builder:
+        builder = super().create_build_configuration_builder()
+        builder.register_rules(cls.__name__, cls.test_rules)
+        return builder
