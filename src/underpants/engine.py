@@ -154,6 +154,7 @@ class TestRulesEngine(RulesEngine):
         engine.request(ResultType, InputParamType())
     """
 
+    __test__ = False
     test_rules: tuple[Rule, ...] = ()
 
     @classmethod
