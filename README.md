@@ -13,7 +13,7 @@ It's also a test-bed for me to explore the intricacies of rule caching etc.
 
 Expected output along the lines of:
 ```
-$ ./pants run src/pants_rules:
+$ ./pants run src/pants_rules/main.py
 14:00:05.78 [INFO] Starting: pants_rules.demo.basic.answer_to_life_universe_and_everything
 14:00:05.78 [INFO] Starting: pants_rules.demo.basic.reverse_input
 == in reverse_input: InputData(text='answer')
@@ -40,19 +40,10 @@ OSI approved license.
 Lockfile
 ========
 
-The lock file uses the currently under development lockfile features of `pex3`, and as such, is not
-yet integrated in the Pants build flow, and requires manual intervention. To update the
-`3rdparty/constraints.txt` file run the following two commands:
+To update the `3rdparty/requirements.lock` file run:
 
 ```
-pex3 lock update 3rdparty/requirements.lock
-pex3 lock export -o 3rdparty/constraints.txt 3rdparty/requirements.lock
-```
-
-To add/change the requirements, re-create the lockfile from `3rdparty/requirements.txt`:
-
-```
-pex3 lock create -r 3rdparty/requirements.txt -o 3rdparty/requirements.lock
+./pants generate-lockfiles
 ```
 
 
